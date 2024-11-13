@@ -1,0 +1,184 @@
+<div class="container">
+    <div class="row h-100">
+        <div class="col-12 col-lg-8 h-100" id="Grande1">
+            <div class="container pl-0">
+                <!-- Contenido del primer div -->
+                <div class="row">
+                    <div class="col tittle1">
+                        <div class="row">
+                            <div class="col" id="texto">
+                                <h2>¡Hola!</h2>
+                                <p>Este es tu espacio para gestionar tus actividades y logros. Aquí podrás ver un
+                                    resumen de tus horas dedicadas, los logros alcanzados y las actividades programadas.
+                                    ¡Gracias por ser parte de nuestra comunidad!</p>
+                            </div>
+                            <div class="col" id="imagen-col">
+                                <img src="assets/img/manLaptop.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Estadísticas -->
+                <div class="row">
+                    <div class="col-12 col-lg-4 h-100 mb-4" id="Users">
+                        <div class="card-container">
+                            <i class="bi bi-people-fill" style="font-size: 2rem; color: #ffffff;"></i>
+                            <h3 class="mt-4">{{ completedActivities }}</h3>
+                            <p>Actividades Completadas</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 h-100 mb-4" id="Volunteer">
+                        <div class="card-container">
+                            <i class="bi bi-person-heart" style="font-size: 2rem; color: #ffffff;"></i>
+                            <h3 class="mt-4">{{ averageRating }}</h3>
+                            <p>Puntuación <br> Promedio</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 h-100 mb-4" id="Organization">
+                        <div class="card-container">
+                            <i class="bi bi-building-fill-check" style="font-size: 2rem; color: #ffffff;"></i>
+                            <h3 class="mt-4">{{ beneficiariesImpacted }}</h3>
+                            <p>Beneficiarios <br> impactados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico -->
+                <div class="row">
+                    <div class="col tittle" id="table-container">
+                        <div class="row align-items-center">
+                            <div class="col-6">
+                                <h2>Actividades por Mes</h2>
+                            </div>
+                            <div class="col-2" id="drop">
+                                <div class="dropdown">
+                                    <select class="form-control" (change)="onYearChange($event)"
+                                        [(ngModel)]="selectedYear">
+                                        <option *ngFor="let year of yearRange" [value]="year">{{ year }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div id="chart">
+                                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                        [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+                                        [dataLabels]="chartOptions.dataLabels"></apx-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segundo div -->
+        <div class="col-12 col-lg-4 h-100" id="Grande2">
+            <h2 class="mb-4">Actividades programadas</h2>
+            <div class="card1 flex-grow-1" id="card">
+                <div class="card-header text-center">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn custom-btn" (click)="prevMonth()">&lt;</button>
+                        <span class="mes">{{ months[currentMonth] }}, {{ currentYear }}</span>
+                        <button class="btn custom-btn" (click)="nextMonth()">&gt;</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col" id="dia">Do</div>
+                        <div class="col" id="dia">Lu</div>
+                        <div class="col" id="dia">Ma</div>
+                        <div class="col" id="dia">Mi</div>
+                        <div class="col" id="dia">Ju</div>
+                        <div class="col" id="dia">Vi</div>
+                        <div class="col" id="dia">Sa</div>
+                    </div>
+                    <div class="row text-center" *ngFor="let week of calendarDays">
+                        <div *ngFor="let day of week" class="col"
+                            [ngClass]="{'selected-day': isSelected(day), 'bg-primary': isToday(day)}"
+                            (click)="selectDay(day)">
+                            <span [class.text-muted]="!day" id="dia">{{ day?.getDate() }}</span>
+                            <span *ngIf="hasActivities(day)" class="activity-dot"></span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p id="texti">Actividades para {{ selectedDate | date:'EEEE, dd MMMM yyyy' }}</p>
+                        <ul class="list-group">
+                            <li *ngFor="let activity of filteredActivities()"
+                                class="list-group-item d-flex justify-content-between align-items-start">
+                                <div style="display: flex; align-items: center;">
+                                    <div>
+                                        <strong class="text-dark" style="font-size: 16px;">{{ activity.time }}</strong>
+                                    </div>
+                                    <div
+                                        style="width: 2px; border-radius:20px; height: 50px; margin: 0 10px; background: linear-gradient(to bottom, rgb(4, 4, 84), rgba(0, 0, 255, 0));">
+                                    </div>
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold" style="font-size: 16px;">{{ activity.name }}</div>
+                                        <small style="font-size: 16px;">{{ activity.responsible }}</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li *ngIf="filteredActivities().length === 0" class="list-group-item"
+                                style="font-size: 16px;">
+                                <div style="display: flex; align-items: center;">
+                                    <div>
+                                        <i class="bi bi-emoji-frown" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div
+                                        style="width: 2px; border-radius:20px; height: 50px; margin: 0 10px; background: linear-gradient(to bottom, rgb(4, 4, 84), rgba(0, 0, 255, 0));">
+                                    </div>
+                                    <div class="ms-2 me-auto">
+                                        No hay actividades programadas.
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fundaciones inscritas -->
+    <div class="row">
+        <div class="col tittle" id="recentCustomers">
+            <div class="cardHeader mb-2 d-flex justify-content-between align-items-center">
+                <h2>Fundaciones a las que estoy inscrito</h2>
+                <button type="button" id="buttonStyle" class="btn btn-outline-warning"
+                    (click)="navigateToFundaciones()">Ver todos</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm" id="datatableexample">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Imagen</th>
+                            <th>Nombre fundación</th>
+                            <th>Email</th>
+                            <th>Celular</th>
+                            <th>Dirección</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let org of organizations; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td width="60px">
+                                <div class="imgBx">
+                                    <img [src]="org.userDetails?.image || 'assets/img/user2.png'" alt="Perfil"
+                                        (error)="org.userDetails.image='assets/img/user3.png'">
+                                </div>
+                            </td>
+                            <td>{{ org.organizationDetails?.organizationName }}</td>
+                            <td>{{ org.userDetails?.email }}</td>
+                            <td>{{ org.responsiblePersonPhoneNumber }}</td>
+                            <td>{{ org.address }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

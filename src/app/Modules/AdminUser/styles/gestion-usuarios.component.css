@@ -1,0 +1,90 @@
+
+h1{
+  font-weight: bold;
+  color: #ED4B4B;
+}
+.tittle{
+  background-color: white; /* Fondo blanco */
+border-radius: 20px; /* Bordes redondeados */
+padding: 10px; /* Espaciado interno */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+margin-bottom:20px;
+
+}
+#header .cards {
+  background-color: white; /* Fondo blanco */
+  border-radius: 20px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+}
+.table-container {
+  background-color: white; /* Fondo blanco */
+  border-radius: 20px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 20px;
+  margin:20px;
+}
+p {
+  font-weight: 600;
+  font-size: 14px;
+  color: #b3abb4;
+  margin:20px;
+}
+th {
+  font-size: 14px;
+}
+td {
+  font-size: 14px;
+  color: #80777c;
+}
+/* Aplica a todos los íconos dentro de un botón */
+button i.fa {
+  color: #80777c;
+  transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+button:hover i.fa {
+  color: #007bff; /* Color azul al pasar el mouse */
+}
+.modal-footer .aceptar {
+  background: #7BA5B3;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 8px 8px 8px;
+  border-radius: 10px;
+  border: none !important;
+}
+
+
+
+.modal-footer .rechazar {
+  background: #FB9778;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 8px 8px 8px;
+  border-radius: 10px;
+  border: none !important;
+  }
+  
+
+ 
+  @media (max-width: 770px) {
+    #img2 {
+      display: none;
+    }
+}
+h4 {
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+}
+
+h5 {
+  font-family: "Quicksand", sans-serif;
+  font-size: 18px;
+}

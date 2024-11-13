@@ -1,0 +1,141 @@
+<!-- Alerta en la parte superior centrada y con ancho fijo -->
+<div *ngIf="showAlert" class="alert alert-info fade show" role="alert"
+    style="background-color: #68997d; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Coordinador creado con éxito.
+</div>
+<div *ngIf="showAlert2" class="alert alert-info fade show" role="alert"
+    style="background-color: #dc6060; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Ocurrió un error al crear el coordinador.
+</div>
+<div *ngIf="showAlert3" class="alert alert-info fade show" role="alert"
+    style="background-color: #F5C620; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Por favor llene todos los campos.
+</div>
+<div *ngIf="showAlert4" class="alert alert-info fade show" role="alert"
+    style="background-color: #68997d; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Coordinador eliminado con éxito.
+</div>
+<div *ngIf="showAlert5" class="alert alert-info fade show" role="alert"
+    style="background-color: #dc6060; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Ocurrió un error al eliminr el coordinador.
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col d-flex justify-content-between align-items-center tittle">
+            <h2>Coordinadores</h2>
+            <button data-bs-toggle="modal" data-bs-target="#VolunteerModal" id="Crear" class="btn btn-primary">
+                <i class="bi bi-plus-circle mr-2"></i>Crear Coordinador
+            </button>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col tittle" id="recentCustomers">
+            <div class="table-responsive">
+                <table class="table table-sm" id="datatableCoordinadores">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;" class="text-left">#</th>
+                            <th style="width: 8%;" class="text-left">Perfil</th>
+                            <th style="width: 30%;" class="text-left">Nombre</th>
+                            <th style="width: 30%;" class="text-left">Email</th>
+                            <th style="width: 12%;" class="text-left">Cédula</th>
+                            <th style="width: 5%;" class="text-left">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of data; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td width="60px">
+                                <div class="d-flex align-items-center">
+                                    <img [src]="user.image || 'assets/img/user2.png'" alt="Perfil" (error)="user.image='assets/img/user3.png'
+                                        " style="width:50px; height:50px; border-radius:50%;">
+                                </div>
+                            </td>
+                            <td class="align-middle">
+                                {{ user.firstName }} {{ user.lastName }}
+                            </td>
+                            <td class="align-middle">{{ user.email }}</td>
+                            <td class="align-middle text-left">{{ user.identificationCard }}</td>
+                            <td class="align-middle">
+                                <a (click)="viewCoordinatorProfile(user)"
+                                    style="border: none; background: none; cursor: pointer;">
+                                    <i class="bi bi-eye" style="font-size: 1.3rem; color: #000000;"
+                                        onmouseover="this.style.color='#186dde';"
+                                        onmouseout="this.style.color='#80777c';" title="Detalles"></i>
+                                </a>
+                                <button style="border: none; background: none;" (click)="deleteCoordinator(user.id)">
+                                    <i class="bi bi-trash3" style="font-size: 1.2rem; color: #000000;"
+                                        onmouseover="this.style.color='#186dde';"
+                                        onmouseout="this.style.color='#80777c';" title="Eliminar"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para Crear un nuevo coordinador -->
+<div class="modal fade" id="VolunteerModal" tabindex="-1" aria-labelledby="VolunteerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4>Empecemos</h4>
+                    <h5>Crea un nuevo coordinador</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Mostrar botones sociales o campos de cédula y celular según la variable de estado -->
+                <div *ngIf="showSocialButtons">
+                    <!-- Botón de Google -->
+                    <div class="btn-outlinetemplate-1-copy mb-3" id="custom-google-signin-button"
+                        style="border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 10px; display: flex; align-items: center; cursor: pointer; border-radius: 10px; width: 100%; justify-content: center;"
+                        (click)="onGoogleSignIn()">
+                        <img class="icons-8-google" src="/assets/img/google.png"
+                            style="width: 40px; height: 40px; margin-right: 10px;">
+                        <div class="sign-up-with-google" style="flex-grow: 1; text-align: center;">Ingresa con Google
+                        </div>
+                    </div>
+
+                    <!-- Botón de Facebook (solo visible si no se ha hecho click en Google) -->
+                    <div class="btn-outlinetemplate-1-copy mb-3"
+                        style="border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 10px; display: flex; align-items: center; cursor: not-allowed; pointer-events: none; opacity: 0.5; border-radius: 10px; width: 100%; justify-content: center;">
+                        <img class="icons-8-facebook" src="/assets/img/face.png"
+                            style="width: 40px; height: 40px; margin-right: 10px;">
+                        <div class="sign-up-with-facebook" style="flex-grow: 1; text-align: center;">Ingresa con
+                            Facebook</div>
+                    </div>
+
+                    <!-- Botón de Apple -->
+                    <div class="btn-outlinetemplate-1-copy mb-3"
+                        style="border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 10px; display: flex; align-items: center; cursor: not-allowed; pointer-events: none; opacity: 0.5; border-radius: 10px; width: 100%; justify-content: center;">
+                        <img class="apple" src="/assets/img/apple.png"
+                            style="width: 40px; height: 40px; margin-right: 10px;">
+                        <div class="sign-up-with-apple" style="flex-grow: 1; text-align: center;">Ingresa con Apple
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campos de cédula y celular después de hacer clic en "Ingresar con Google" -->
+                <div *ngIf="!showSocialButtons">
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" id="cedula" placeholder="Ingrese su cédula">
+                    </div>
+                    <div class="mb-3">
+                        <label for="celular" class="form-label">Número de Celular</label>
+                        <input type="text" class="form-control" id="celular" placeholder="Ingrese su número de celular">
+                    </div>
+                    <button type="button" class="btn customBtn" style="width: 100%; background: #06c9d7;"
+                        (click)="createCoordinator()">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

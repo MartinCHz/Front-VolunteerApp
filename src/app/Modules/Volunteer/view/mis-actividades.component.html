@@ -1,0 +1,51 @@
+<div class="container mt-5">
+    <div>
+        <div class="row">
+            <div class="col">
+                <div class="column1">
+                    <h2>Mis actividades</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                <div class="col column1" id="recentCustomers">
+                    <div class="table-container">
+                        <table class="table table-sm hover" id="datatableActividadesO">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">#</th>
+                                    <th>Nombre Actividad</th>
+                                    <th class="text-left">Fecha inicio</th>
+                                    <th>Dirección</th>
+                                    <th>Status</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let activity of activities">
+                                    <td class="text-left">{{ activity.id }}</td>
+                                    <td class="text-left">{{ activity.title }}</td>
+                                    <td class="text-left">{{ activity.date }}</td>
+                                    <td>{{ activity.address }}</td>
+                                    <td>
+                                        <span [ngClass]="getStatusClass(activity.activityStatus)">
+                                            {{ activity.activityStatus }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a (click)="verDetalles(activity.id)" style="border: none; background: none;">
+                                            <i class="bi bi-eye" style="font-size: 1.3rem; color: #000000;"
+                                                onmouseover="this.style.color='#186dde';"
+                                                onmouseout="this.style.color='#80777c';" title="Detalles"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

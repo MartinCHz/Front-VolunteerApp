@@ -1,0 +1,159 @@
+<div id="thanksBackground"></div>
+<div class="container mt-5" id="Completo">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col">
+            <form [formGroup]="myForm" (ngSubmit)="onSubmit()" id="regForm">
+                <h1 id="register">Formulario para Voluntario</h1>
+                <div class="all-steps" id="all-steps">
+                    <span class="step"><i class="fa fa-user"></i></span>
+                    <span class="step"><i class="fa fa-mobile"></i></span>
+                    <span class="step"><i class="fa fa-check"></i></span>
+                </div>
+
+                <!-- Datos Personales -->
+                <div class="tab" [formGroup]="myForm">
+                    <h3 id="tittle">Datos Personales</h3>
+                    <h6>Digita tu cédula</h6>
+                    <p><input id="nor" placeholder="1016517485" formControlName="dni" oninput="this.className = ''"></p>
+                    <h6>Digita tu número celular</h6>
+                    <p><input id="nor" placeholder="3124687956" formControlName="cell" oninput="this.className = ''">
+                    </p>
+                    <h6>Digita tu dirección</h6>
+                    <p><input id="nor" placeholder="Cra 100 #87-56" formControlName="address"
+                            oninput="this.className = ''"></p>
+                    <h6>Digita tu fecha de nacimiento</h6>
+                    <p><input id="nor" type="date" formControlName="bornDate" oninput="this.className = ''"></p>
+                    <h6>Selecciona tus días disponibles</h6>
+                    <ng-multiselect-dropdown [settings]="dropdownSettings3" [data]="days" formControlName="days"
+                        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                    </ng-multiselect-dropdown>
+                    <h6>Selecciona tus habilidades</h6>
+                    <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="skills" formControlName="skills"
+                        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                    </ng-multiselect-dropdown>
+                    <h6>Selecciona tus intereses</h6>
+                    <ng-multiselect-dropdown [settings]="dropdownSettings2" [data]="intereses"
+                        formControlName="intereses" (onItemSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)">
+                    </ng-multiselect-dropdown>
+                    <p class="checkbox-container">
+                        <input type="checkbox" id="acceptTerms" formControlName="acceptTerms">
+                        <label for="acceptTerms">
+                            Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#Terms">Términos y
+                                Condiciones</a>
+                        </label>
+                    </p>
+                </div>
+
+                <!-- Contacto de Emergencia -->
+                <div class="tab" [formGroup]="myForm">
+                    <h3 id="tittle">Contacto de Emergencia</h3>
+                    <h6>Nombre del contacto</h6>
+                    <p><input id="nor" placeholder="Adriana" formControlName="emergencyContact1Name"
+                            oninput="this.className = ''"></p>
+                    <h6>Apellido del contacto</h6>
+                    <p><input id="nor" placeholder="Marcela" formControlName="emergencyContact1Surname"
+                            oninput="this.className = ''"></p>
+                    <h6>Relación con el contacto</h6>
+                    <ng-multiselect-dropdown [settings]="dropdownSettings4" [data]="relationships"
+                        formControlName="emergencyContact1Relation" (onItemSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)">
+                    </ng-multiselect-dropdown>
+                    <h6>Número de teléfono del contacto</h6>
+                    <p><input id="nor" placeholder="3112494942" formControlName="emergencyContact1Phone"
+                            oninput="this.className = ''"></p>
+                    <h6>Correo electrónico del contacto</h6>
+                    <p><input id="nor" placeholder="adriana@example.com" formControlName="emergencyContact1Email"
+                            oninput="this.className = ''"></p>
+                </div>
+
+                <!-- Confirmación -->
+                <div class="tab">
+                    <h3 id="tittle">Confirmación</h3>
+                    <h6>Cédula:</h6>
+                    <p>{{ volunteerData.personalInformation.identificationCard }}</p>
+                    <h6>Celular:</h6>
+                    <p>{{ volunteerData.personalInformation.phoneNumber }}</p>
+                    <h6>Dirección:</h6>
+                    <p>{{ volunteerData.personalInformation.address }}</p>
+                    <h6>Fecha de Nacimiento:</h6>
+                    <p>{{ volunteerData.personalInformation.bornDate }}</p>
+                    <h6>Días disponibles:</h6>
+                    <p>
+                        <span
+                            *ngFor="let day of volunteerData.volunteeringInformation.availabilityDaysList; let i = index">
+                            {{ day }}<span
+                                *ngIf="i < volunteerData.volunteeringInformation.availabilityDaysList.length - 1">,
+                            </span>
+                        </span>
+                    </p>
+                    <h6>Habilidades:</h6>
+                    <p>
+                        <span *ngFor="let skill of volunteerData.volunteeringInformation.skillsList; let i = index">
+                            {{ skill }}<span *ngIf="i < volunteerData.volunteeringInformation.skillsList.length - 1">,
+                            </span>
+                        </span>
+                    </p>
+                    <h6>Intereses:</h6>
+                    <p>
+                        <span
+                            *ngFor="let interest of volunteerData.volunteeringInformation.interestsList; let i = index">
+                            {{ interest }}<span
+                                *ngIf="i < volunteerData.volunteeringInformation.interestsList.length - 1">, </span>
+                        </span>
+                    </p>
+                    <h6>Contacto de Emergencia - Nombre:</h6>
+                    <p>{{ volunteerData.emergencyInformation.emergencyContactFirstName }}</p>
+                    <h6>Contacto de Emergencia - Apellido:</h6>
+                    <p>{{ volunteerData.emergencyInformation.emergencyContactLastName }}</p>
+                    <h6>Contacto de Emergencia - Relación:</h6>
+                    <p>{{ volunteerData.emergencyInformation.emergencyContactRelationship }}</p>
+                    <h6>Contacto de Emergencia - Teléfono:</h6>
+                    <p>{{ volunteerData.emergencyInformation.emergencyContactPhone }}</p>
+                    <h6>Contacto de Emergencia - Correo:</h6>
+                    <p>{{ volunteerData.emergencyInformation.emergencyContactEmail }}</p>
+                </div>
+
+                <!-- Mensaje de Agradecimiento -->
+                <div class="thanks-message text-center" id="text-message">
+                    <h1>¡Gracias por tu interés en unirte a Volunteer App!</h1>
+                    <p>Queremos darte una cálida bienvenida a nuestra comunidad de voluntarios. Tu disposición para
+                        colaborar y contribuir a causas que importan es realmente valiosa para nosotros. En Volunteer
+                        App, estamos comprometidos a conectar a personas apasionadas como tú con oportunidades de
+                        impacto positivo en la comunidad. <br>
+                        Tu registro ha sido exitoso y estamos emocionados de tenerte a bordo. Pronto recibirás
+                        información a tu email sobre las próximas oportunidades de voluntariado y cómo puedes empezar a
+                        hacer la diferencia. <br>
+                        Una vez más, gracias por tu compromiso y por elegir hacer la diferencia. <br>
+                        Con aprecio, <br>
+                        El Equipo de Volunteer App</p>
+                    <button type="button" class="btn-secondary" (click)="onSubmit()">Continuar</button>
+                </div>
+
+                <div style="overflow:auto;" id="nextprevious">
+                    <div class="mt-4" style="float:right;">
+                        <button type="button" id="prevBtn" (click)="nextPrev(-1)"><i
+                                class="fa fa-angle-double-left"></i></button>
+                        <button type="button" id="nextBtn" (click)="nextPrev(1)"><i
+                                class="fa fa-angle-double-right"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Términos y Condiciones -->
+<div class="modal fade" id="Terms" tabindex="-1" aria-labelledby="TermsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="TermsLabel">Términos y Condiciones</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="termsBody">
+                <pre>{{ termsContent }}</pre>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,152 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="column1 d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <button class="back mr-2" (click)="volver()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h2 class="mt-1">Detalles de la Actividad </h2>
+                </div>
+                <!-- *ngIf="role === 'COORDINADOR_ACTIVIDAD' && status === 'DISPONIBLE' -->
+                <div class="qr" *ngIf=" status !== 'CANCELADA'">
+                    <button data-bs-toggle="modal" data-bs-target="#QRInicial" class="mr-3 custom1">Qr Inicial</button>
+                    <button data-bs-toggle="modal" data-bs-target="#QRFinal" class="mr-3 custom2">Qr Final</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card custom-card">
+        <img [src]="imagen" class="card-img-top custom-img" alt="Imagen de la actividad">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+                <div class="ml-3">
+                    <div [ngClass]="getStatusClass()" class="etiqueta_status">
+                        <h3>{{ status }}</h3> <!-- Mostrar el estado de la actividad -->
+                    </div>
+                    <h5 class="card-title mb-0"> {{ activityDetails.title }}</h5>
+                    <!-- Mostrar el título de la actividad -->
+                    <div class="text-muted small">
+                        <i class="bi bi-eye"></i> {{ activityDetails.noVolunteers }} inscritos &nbsp;&nbsp;
+                        <i class="bi bi-calendar"></i> {{ activityDetails.startDate | date:'dd/MM/yyyy' }}
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-3" style="height: 1px; background-color: rgb(136, 135, 135); border: none;">
+            <h4>Datos Generales</h4>
+            <p class="card-text">
+                <strong>Hora inicio:</strong> {{ activityDetails.startTime }}<br>
+                <strong>Horas requeridas:</strong> {{ activityDetails.requiredHours }}<br>
+                <strong>Ciudad:</strong> {{ activityDetails.city }}
+            </p>
+            <hr class="mt-3" style="height: 1px; background-color: rgb(136, 135, 135); border: none;">
+            <h4>Coordinador Encargado</h4>
+            <p class="card-text">
+                <strong>Nombre:</strong> {{ activityDetails.coordinator.name }}<br>
+                <strong>Teléfono:</strong> {{ activityDetails.coordinator.phone }}<br>
+                <strong>Cédula:</strong> {{ activityDetails.coordinator.id }}
+            </p>
+            <hr class="mt-3" style="height: 1px; background-color: rgb(136, 135, 135); border: none;">
+            <h4>Descripción</h4>
+            <p class="card-text">
+                {{ activityDetails.description }}
+            </p>
+
+            <hr class="mt-3" style="height: 1px; background-color: rgb(136, 135, 135); border: none;">
+            <h4>Lista de Voluntarios Inscritos</h4>
+            <div class="col tittle mt-4" id="recentCustomers">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="datatableexample">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Perfil</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Cedula</th>
+                                <th>Horas Realizadas</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of data; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td width="60px">
+                                    <div class="imgBx">
+                                        <img [src]="user.image || 'assets/img/user2.png'" alt="Perfil"
+                                            (error)="user.image='assets/img/user3.png'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <h4>{{user.name}} <br></h4>
+                                </td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.identificationCard }}</td>
+                                <td>{{ user.hoursDone }}</td>
+
+                                <td style="text-align: center;"><a (click)="verDetalles()"
+                                        style="border: none; background: none;">
+                                        <i class="bi bi-eye" style="font-size: 1.3rem; color: #000000;"
+                                            onmouseover="this.style.color='#186dde';"
+                                            onmouseout="this.style.color='#80777c';" title="Detalles"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Modal para QR Inicial -->
+<div class="modal fade" id="QRInicial" tabindex="-1" aria-labelledby="QRInicialLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>QR Inicial</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="qr-container">
+                    <img *ngIf="qrCodeUrlInicial" [src]="qrCodeUrlInicial" alt="QR Inicial" />
+                </div>
+                <div class="mt-3">
+                    <button *ngIf="qrCodeUrlInicial" (click)="downloadQRInicial()" class="btn btn-primary">
+                        Descargar Imagen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para QR Final -->
+<div class="modal fade" id="QRFinal" tabindex="-1" aria-labelledby="QRFinalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h4>QR Final</h4>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="qr-container">
+                    <img *ngIf="qrCodeUrlFinal" [src]="qrCodeUrlFinal" alt="QR Final" />
+                </div>
+                <div class="mt-3">
+                    <button *ngIf="qrCodeUrlFinal" (click)="downloadQRFinal()" class="btn btn-primary">
+                        Descargar Imagen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

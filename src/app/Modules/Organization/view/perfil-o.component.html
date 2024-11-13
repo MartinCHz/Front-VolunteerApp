@@ -1,0 +1,206 @@
+<div *ngIf="showAlert" class="alert alert-info fade show" role="alert"
+  style="background-color: #68997d; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+  Perfil editado exitosamente.
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="column1">
+        <h2>Perfil</h2>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col">
+      <div class="column2">
+        <div class="head d-flex">
+          <img [src]="image || 'assets/img/default-user.png'" alt="User Image" id="misionimg">
+          <div class="ml-3 mt-3" style="text-align: left;">
+            <h3>{{ organizationData.organizationName }}</h3> <!-- Nombre de la misión -->
+            <div class="datos">
+              <h6>Email</h6>
+              <p>{{ email }}</p>
+              <h6>Teléfono</h6>
+              <p>{{ organizationData.responsiblePersonPhoneNumber }}</p>
+              <h6>Dirección</h6>
+              <p>{{ organizationData.address }}</p>
+            </div>
+
+          </div>
+        </div>
+        <hr class="mt-3" style="height: 1px; background-color: black; border: none;">
+        <ul class="nav mb-4">
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active-link': currentContent === 'content1'}"
+              (click)="showContent('content1')"><strong><i class="bi bi-archive"></i></strong>
+              <span class="nav-text">Historial</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active-link': currentContent === 'content2'}"
+              (click)="showContent('content2')"><strong><i class="bi bi-building-exclamation"></i></strong>
+              <span class="nav-text">Datos</span></a>
+          </li>
+        </ul>
+
+        <div *ngIf="currentContent === 'content1'" class="content mt-5">
+          <div class="" id="lindo">
+            <div class="container">
+
+              <ng-container *ngIf="timelineData.length > 0; else noReviews">
+                <ng-container *ngFor="let item of timelineData; let i = index">
+                  <!-- Paso 1 (Fijo) para el primer historial -->
+                  <div *ngIf="i === 0" class="row align-items-center how-it-works d-flex">
+                    <div class="col-2 text-center bottom d-inline-flex justify-content-center align-items-center">
+                      <div class="circle font-weight-bold">1</div>
+                    </div>
+                    <div class="col-6">
+                      <h5>{{ item.title }}</h5>
+                      <span *ngFor="let star of getStars(item.stars)"
+                        [ngClass]="star === 'gold' ? 'star gold' : 'star gray'">★</span>
+                      <p>{{ item.review }}</p>
+                      <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ item.date }}</small></p>
+                    </div>
+                  </div>
+
+                  <!-- Línea entre paso 1 y 2 -->
+                  <div class="row timeline" *ngIf="i < timelineData.length - 1">
+                    <div class="col-2">
+                      <div class="corner top-right"></div>
+                    </div>
+                    <div class="col-8">
+                      <hr />
+                    </div>
+                    <div class="col-2">
+                      <div class="corner left-bottom"></div>
+                    </div>
+                  </div>
+
+                  <!-- Paso 2 (Fijo) para el segundo historial -->
+                  <div *ngIf="i === 1" class="row align-items-center justify-content-end how-it-works d-flex">
+                    <div class="col-6 text-right">
+                      <h5>{{ item.title }}</h5>
+                      <span *ngFor="let star of getStars(item.stars)"
+                        [ngClass]="star === 'gold' ? 'star gold' : 'star gray'">★</span>
+                      <p>{{ item.review }}</p>
+                      <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ item.date }}</small></p>
+                    </div>
+                    <div class="col-2 text-center full d-inline-flex justify-content-center align-items-center">
+                      <div class="circle font-weight-bold">2</div>
+                    </div>
+                  </div>
+
+                  <!-- Línea entre paso 2 y 3 -->
+                  <div class="row timeline" *ngIf="i < timelineData.length - 1">
+                    <div class="col-2">
+                      <div class="corner right-bottom"></div>
+                    </div>
+                    <div class="col-8">
+                      <hr />
+                    </div>
+                    <div class="col-2">
+                      <div class="corner top-left"></div>
+                    </div>
+                  </div>
+
+                  <!-- Paso 3 (Fijo) para el tercer historial -->
+                  <div *ngIf="i === 2" class="row align-items-center how-it-works d-flex">
+                    <div class="col-2 text-center top d-inline-flex justify-content-center align-items-center">
+                      <div class="circle font-weight-bold">3</div>
+                    </div>
+                    <div class="col-6">
+                      <h5>{{ item.title }}</h5>
+                      <span *ngFor="let star of getStars(item.stars)"
+                        [ngClass]="star === 'gold' ? 'star gold' : 'star gray'">★</span>
+                      <p>{{ item.review }}</p>
+                      <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ item.date }}</small></p>
+                    </div>
+                  </div>
+
+                  <!-- Línea después del paso 3 -->
+                  <div class="row timeline" *ngIf="i === 2 && timelineData.length > 3">
+                    <div class="col-2">
+                      <div class="corner top-right"></div>
+                    </div>
+                    <div class="col-8">
+                      <hr />
+                    </div>
+                    <div class="col-2">
+                      <div class="corner left-bottom"></div>
+                    </div>
+                  </div>
+
+                  <!-- Ciclo para los siguientes historiales -->
+                  <div *ngIf="i > 2" class="row align-items-center d-flex">
+                    <div class="col-2 text-center bottom d-inline-flex justify-content-center align-items-center">
+                      <div class="circle font-weight-bold">{{ (i % 2 === 0) ? 2 : 3 }}</div>
+                    </div>
+                    <div class="col-6" [ngClass]="{'text-right': i % 2 !== 0}">
+                      <h5>{{ item.title }}</h5>
+                      <span *ngFor="let star of getStars(item.stars)"
+                        [ngClass]="star === 'gold' ? 'star gold' : 'star gray'">★</span>
+                      <p>{{ item.review }}</p>
+                      <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ item.date }}</small></p>
+                    </div>
+                  </div>
+
+                  <!-- Línea entre pasos -->
+                  <div class="row timeline" *ngIf="i < timelineData.length - 1">
+                    <div class="col-2">
+                      <div class="corner right-bottom"></div>
+                    </div>
+                    <div class="col-8">
+                      <hr />
+                    </div>
+                    <div class="col-2">
+                      <div class="corner top-left"></div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ng-template #noReviews>
+                <p>Esta organización aún no cuenta con ninguna reseña.</p>
+              </ng-template>
+
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="currentContent === 'content2'" class="content">
+          <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <div class="tab ml-3">
+              <h6>Nombre de la Fundación</h6>
+              <p><input id="nor" placeholder="Fundación Manitas..." formControlName="organizationName"
+                  oninput="this.className = ''"></p>
+              <h6>Número Celular del Responsable</h6>
+              <p><input id="nor" placeholder="312456789..." formControlName="responsiblePersonPhoneNumber"
+                  oninput="this.className = ''"></p>
+              <h6>Dirección de la Fundación</h6>
+              <p><input id="nor" placeholder="Cra 15 #87-95.." formControlName="address" oninput="this.className = ''">
+              </p>
+
+              <h6>Tipo de Organización</h6>
+              <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="typeOrganization"
+                formControlName="organizationTypeEnum" (onSelect)="onItemSelect($event)">
+              </ng-multiselect-dropdown>
+
+              <h6 class="mt-3">Sector al que pertenece la Organización</h6>
+              <ng-multiselect-dropdown [settings]="dropdownSettings3" [data]="sectorOrganization"
+                formControlName="sectorTypeEnum" (onSelect)="onItemSelect($event)">
+              </ng-multiselect-dropdown>
+
+              <h6 class="mt-3">Tipo de Voluntariado</h6>
+              <ng-multiselect-dropdown [settings]="dropdownSettings2" [data]="volunteeringType"
+                formControlName="volunteeringTypeEnum" (onSelect)="onItemSelect($event)">
+              </ng-multiselect-dropdown>
+            </div>
+
+            <button class="btn-secondary" type="submit">Actualizar datos</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

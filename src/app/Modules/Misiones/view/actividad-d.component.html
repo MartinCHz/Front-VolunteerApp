@@ -1,0 +1,128 @@
+<!-- Alerta en la parte superior centrada y con ancho fijo -->
+<div *ngIf="showAlert" class="alert alert-info fade show" role="alert"
+    style="background-color: #68997d; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Te haz unido a la actividad de froma exitosa
+</div>
+<div *ngIf="showAlert2" class="alert alert-info fade show" role="alert"
+    style="background-color: #dc6060; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Ocurrió un error al unirte a la actividad
+</div>
+<div *ngIf="showAlert3" class="alert alert-info fade show" role="alert"
+    style="background-color: #F5C620; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Ya te has unido a esta actividad
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="column1 d-flex">
+                <button class="back mr-2" (click)="volver()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 class="mt-1">{{ actividad.title }}</h2> <!-- Título de la actividad -->
+            </div>
+        </div>
+    </div>
+    <div class="card custom-card">
+        <img [src]="imagen" class="card-img-top custom-img" alt="Imagen de la actividad">
+        <div class="card-body">
+
+            <!-- Mostrar nombre de actividad, fecha y voluntarios requeridos -->
+            <div class="d-flex align-items-center mb-3">
+                <div class="ml-3">
+                    <h5 class="card-title mb-0">{{ actividad.title }}</h5> <!-- Título de la actividad -->
+                    <div class="text-muted small">
+                        <i class="bi bi-people"></i> {{ actividad.numberOfVolunteersRequired }} voluntarios requeridos
+                        &nbsp;&nbsp;
+                        <i class="bi bi-calendar"></i> {{ actividad.date | date:'dd MMMM, yyyy' }}
+                        <!-- Fecha de la actividad -->
+                    </div>
+                </div>
+            </div>
+
+            <hr class="mt-3">
+
+            <!-- Sección del coordinador de la actividad -->
+
+            <h4>Coordinador de la actividad</h4>
+            <div class="d-flex align-items-center">
+                <img [src]="userCoordinator.image" alt="Imagen del coordinador" class="rounded-circle profile-img" />
+                <div class="ml-3">
+                    <p class="card-text">
+                        <i class="bi bi-person"></i> <strong>{{ userCoordinator.firstName }} {{
+                            userCoordinator.lastName }}</strong><br>
+                        <i class="bi bi-envelope"></i> {{ userCoordinator.email }}<br>
+                        <i class="bi bi-phone"></i> {{ coordinator.phoneActivityCoordinator }}
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- Separador opcional para visualización clara -->
+            <hr class="mt-3">
+
+            <!-- Sección del líder de la comunidad -->
+
+            <h4>Lider de comunidad</h4>
+            <p class="card-text">
+                <i class="bi bi-person"></i> <strong>{{
+                    actividad.personalDataCommunityLeaderEntity?.nameCommunityLeader }}</strong><br>
+                <i class="bi bi-envelope"></i> {{
+                actividad.personalDataCommunityLeaderEntity?.emailCommunityLeader }}<br>
+                <i class="bi bi-phone"></i> {{ actividad.personalDataCommunityLeaderEntity?.phoneCommunityLeader
+                }}
+            </p>
+
+
+
+
+            <hr class="mt-3">
+
+            <!-- Otros detalles de la actividad -->
+            <h4>Datos generales</h4>
+            <p class="card-text">
+                <strong>Fecha:</strong> {{ actividad.date | date }}<br>
+                <strong>Hora de inicio:</strong> {{ actividad.startTime }}<br>
+                <strong>Hora de fin:</strong> {{ actividad.endTime }}<br>
+                <strong>Ciudad:</strong> {{ actividad.city }}<br>
+                <strong>Localidad:</strong> {{ actividad.locality }}<br>
+                <strong>Dirección:</strong> {{ actividad.address }}
+            </p>
+
+            <hr class="mt-3">
+
+            <!-- Descripción de la actividad -->
+            <h4>Descripción</h4>
+            <p class="card-text">
+                {{ actividad.description }}
+            </p>
+
+            <hr class="mt-3">
+
+            <!-- Detalles adicionales de la actividad -->
+            <h4>Estado de la actividad</h4>
+            <p class="card-text">
+                <strong>Estado:</strong> {{ actividad.activityStatus }}<br>
+                <strong>Visibilidad:</strong> {{ actividad.visibility }}
+            </p>
+
+            <hr class="mt-3">
+
+            <h4>Detalles adicionales</h4>
+            <p class="card-text">
+                <strong>Número de voluntarios requeridos:</strong> {{ actividad.numberOfVolunteersRequired }}<br>
+                <strong>Horas requeridas:</strong> {{ actividad.requiredHours }}<br>
+                <strong>Número de beneficiarios:</strong> {{ actividad.numberOfBeneficiaries }}
+            </p>
+
+            <hr class="mt-3">
+
+            <h4>Observaciones</h4>
+            <p class="card-text">
+                {{ actividad.observations }}
+            </p>
+
+            <hr class="mt-3">
+            <a (click)="unirse($event)" class="btn">Unirse</a>
+        </div>
+    </div>
+</div>

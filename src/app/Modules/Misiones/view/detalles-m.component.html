@@ -1,0 +1,107 @@
+<div class="container">
+    <div class="row">
+        <div class="col d-flex align-items-center" id="tittle">
+            <button class="back mr-2" routerLink="/misiones">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <h2 class="mt-1">Misión</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="app-container">
+            <!-- Menú lateral -->
+            <aside class="sidebar" [ngClass]="{'hidden': !isSidebarVisible}">
+                <h2 class="app-title m-3">Nombre misión</h2>
+                <ul>
+
+                    <li>
+                        <button class="list-group-item list-group-item-action"
+                            [ngClass]="{'active': selectedSection === 'descripcion'}"
+                            (click)="selectSection('descripcion')">
+                            <i class="bi bi-chat-square-text mr-2"></i>Descripción
+                        </button>
+                    </li>
+                    <li>
+                        <button class="list-group-item list-group-item-action"
+                            [ngClass]="{'active': selectedSection === 'actividades'}"
+                            (click)="selectSection('actividades')">
+                            <i class="bi bi-list-stars mr-2"></i>
+                            Actividades
+                        </button>
+                    </li>
+                    <li>
+                        <button class="list-group-item list-group-item-action"
+                            [ngClass]="{'active': selectedSection === 'calendar'}"
+                            (click)="selectSection('calendar')">
+                            <i class="bi bi-calendar-check mr-2"></i>Calendario
+                        </button>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="content" [ngClass]="{'expanded': !isSidebarVisible}">
+                <div class="app-header ml-2">
+                    <button class="menu-toggle"  (click)="toggleSidebar()">&#9776;</button>
+
+                </div>
+                <hr style="height: 1px; background-color: black; border: none;">
+
+                <!-- Mostrar descripción o formulario de edición -->
+                <div *ngIf="selectedSection === 'descripcion'">
+                    <div *ngIf="!isEditing">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h2>Detalles</h2>
+                                </div>
+                            </div>
+                            <hr style="height: 1px; background-color: rgb(97, 95, 95); border: none;">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Tipo de misión:</strong> {{ missionDetails?.missionType }}</p>
+                                    <p><strong>Fecha inicio:</strong> {{ missionDetails?.startDate | date: 'dd MMMM
+                                        yyyy' }}</p>
+                                    <p><strong>Fecha fin:</strong> {{ missionDetails?.endDate | date: 'dd MMMM yyyy'
+                                        }}</p>
+                                    <p><strong>Departamento:</strong> {{ missionDetails?.department }}</p>
+                                    <p><strong>Visibilidad:</strong> {{ missionDetails?.visibility }}</p>
+                                    <p><strong>Habilidades requeridas:</strong> {{
+                                        missionDetails?.requiredSkillsList?.join(', ') || 'N/A' }}</p>
+                                    <p><strong>Requisitos:</strong> {{
+                                        missionDetails?.volunteerMissionRequirementsEnumList?.join(', ') || 'N/A' }}
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Descripción:</strong> {{ missionDetails?.description }}</p>
+                                </div>
+                            </div>
+                            <div class="col" style="text-align: right;">
+                                <button class="editar" (click)="toggleEdit()">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de edición -->
+                    <app-edit-m *ngIf="isEditing" [mission]="missionDetails" (cancel)="toggleEdit()" (missionUpdated)="onMissionUpdated()"></app-edit-m>
+                </div>
+
+
+                <!-- Actividades -->
+                <div *ngIf="selectedSection === 'actividades'">
+                    <app-actividades-o></app-actividades-o>
+                    
+                </div>
+                <!-- Añade más tareas -->
+                <div *ngIf="selectedSection === 'calendar'">
+                    <app-calendar-a></app-calendar-a>
+                </div>
+            </main>
+
+        </div>
+
+    </div>
+</div>

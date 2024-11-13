@@ -1,0 +1,98 @@
+<div *ngIf="showAlert" class="alert alert-info fade show" role="alert"
+    style="background-color: #68997d; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Misión editada exitosamente.
+</div>
+<div *ngIf="showAlert2" class="alert alert-info fade show" role="alert"
+    style="background-color: #dc6060; color: #ffffff; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto; max-width: 300px; text-align: center; border-radius: 8px;">
+    Error al editar misión.
+</div>
+<div class="ml-4">
+    <h2 class="mt-3 ">Edita tu misión</h2>
+    <form (ngSubmit)="onSubmit()" style="text-align: left;">
+        <!-- Tipo de Misión -->
+        <div class="mb-3">
+            <label for="missionType" class="form-label">Tipo de Misión</label>
+            <select id="missionType" class="form-select custom-select" [(ngModel)]="missionType" name="missionType"
+                required>
+                <option value="">Selecciona el tipo de misión</option>
+                <option value="MEDIO_AMBIENTE">Medio Ambiente</option>
+                <option value="SOCIAL">Social</option>
+                <option value="EDUCACION">Educación</option>
+            </select>
+        </div>
+
+        <!-- Título -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" id="title" class="form-control custom-input" [(ngModel)]="title" name="title"
+                placeholder="Escribe el título de la misión" required>
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <textarea id="description" class="form-control custom-input" rows="3" [(ngModel)]="description"
+                name="description" placeholder="Describe la misión"></textarea>
+        </div>
+
+        <!-- Fechas (Inicio y Fin) -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="startDate" class="form-label">Fecha de Inicio</label>
+                <input type="date" id="startDate" class="form-control custom-input" [(ngModel)]="startDate"
+                    name="startDate" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="endDate" class="form-label">Fecha de Fin</label>
+                <input type="date" id="endDate" class="form-control custom-input" [(ngModel)]="endDate" name="endDate"
+                    required>
+            </div>
+        </div>
+
+        <!-- Departamento -->
+        <div class="mb-3">
+            <label for="department" class="form-label">Departamento</label>
+            <input type="text" id="department" class="form-control custom-input" [(ngModel)]="department"
+                name="department" placeholder="Ingresa el departamento">
+        </div>
+
+        <!-- Requisitos para Voluntarios (Dropdown con selección múltiple) -->
+        <div class="mb-3">
+            <label for="volunteerRequirements" class="form-label">Requisitos para Voluntarios</label>
+            <select id="volunteerRequirements" class="form-select custom-select" multiple
+                [(ngModel)]="volunteerRequirements" name="volunteerRequirements">
+                <option value="EXPERIENCIA_PREVIA">Experiencia Previa</option>
+                <option value="ACCESO_TRANSPORTE">Acceso a Transporte</option>
+                <option value="CERTIFICACION_MEDICA">Certificación Médica</option>
+            </select>
+            <small class="form-text text-muted">Mantén presionada la tecla Ctrl (o Cmd en Mac) para seleccionar
+                múltiples opciones.</small>
+        </div>
+
+        <!-- Habilidades Requeridas (Dropdown con selección múltiple) -->
+        <div class="mb-3">
+            <label for="requiredSkills" class="form-label">Habilidades Requeridas</label>
+            <select id="requiredSkills" class="form-select custom-select" multiple [(ngModel)]="requiredSkills"
+                name="requiredSkills">
+                <option value="TRABAJO_EN_EQUIPO">Trabajo en Equipo</option>
+                <option value="COMUNICACION">Comunicación</option>
+                <option value="LIDERAZGO">Liderazgo</option>
+                <option value="RESOLUCION_PROBLEMAS">Resolución de Problemas</option>
+            </select>
+            <small class="form-text text-muted">Mantén presionada la tecla Ctrl (o Cmd en Mac) para seleccionar
+                múltiples opciones.</small>
+        </div>
+
+        <!-- Visibilidad -->
+        <div class="form-check mb-3 ml-2">
+            <input class="form-check-input" type="checkbox" id="visibility" [(ngModel)]="visibility" name="visibility">
+            <label class="form-check-label" for="visibility">Visible al público</label>
+        </div>
+
+        <div class="d-flex mb-3">
+            <!-- Botón de Envío -->
+            <button type="submit" class="btn btn-secondary">Actualizar</button>
+            <button class="btn btn-a" (click)="onCancel()">Cancelar</button>
+        </div>
+    </form>
+</div>

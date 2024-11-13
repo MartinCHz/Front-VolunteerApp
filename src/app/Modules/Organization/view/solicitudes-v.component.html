@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row">
+        <div class="col tittle">
+            <h2>Gestionar solicitudes</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col tittle" id="recentCustomers">
+            <div class="table-responsive">
+                <table class="table table-sm" id="datatableSolicitudesVoluntarios">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Perfil</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th class="text-left">Cédula</th>
+                            <th>Status</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let volunteer of data; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td width="60px">
+                                <div class="imgBx">
+                                    <img [src]="volunteer.image || 'assets/img/user2.png'" alt="Perfil"
+                                        (error)="volunteer.image='assets/img/user3.png'">
+                                </div>
+                            </td>
+                            <td>
+                                <h4>{{ volunteer.firstName }} {{ volunteer.lastName }}</h4>
+                            </td>
+                            <td>{{ volunteer.email }}</td>
+                            <td class="text-left">{{ volunteer.cedula }}</td>
+                            <td>
+                                <span [ngClass]="getStatusClass(volunteer.status)">{{ volunteer.status }}</span>
+                            </td>
+                            <td style="text-align: center;">
+                                <a (click)="verDetalles(volunteer)" style="border: none; background: none;">
+                                    <i class="bi bi-eye" style="font-size: 1.3rem; color: #000000;"
+                                        onmouseover="this.style.color='#186dde';"
+                                        onmouseout="this.style.color='#80777c';" title="Detalles"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
